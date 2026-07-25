@@ -1,1 +1,1 @@
-# TeknikalTest-Brighty-
+# TeknikalTest-Brighty
