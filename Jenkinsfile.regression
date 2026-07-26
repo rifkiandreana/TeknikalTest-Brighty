@@ -5,6 +5,10 @@ pipeline {
         nodejs "node22" // nama harus sama persis dengan yang didaftarkan di Manage Jenkins > Tools
     }
 
+    environment {
+        DISCORD_WEBHOOK_URL = credentials('discord-webhook-url') // dipakai di post block, harus di level pipeline biar kebaca semua stage
+    }
+
     triggers {
         cron('0 1 * * *') // tiap jam 1 pagi, setiap hari
     }
@@ -36,6 +40,14 @@ pipeline {
                     results: [[path: 'allure-results']]
                 ])
             }
+            script {
+                env.BUILD_RESULT_TEXT = currentBuild.currentResult // simpan sebagai env var biar bisa dibaca powershell di bawah
+            }
+            powershell '''
+                $message = "**Regression Test: $env:BUILD_RESULT_TEXT**`nBuild #$env:BUILD_NUMBER`nAllure Report: $env:BUILD_URL allure`nConsole Log: $env:BUILD_URL console"
+                $body = @{ content = $message } | ConvertTo-Json
+                Invoke-RestMethod -Uri $env:DISCORD_WEBHOOK_URL -Method Post -ContentType 'application/json' -Body $body
+            '''
         }
     }
 }
