@@ -2,15 +2,16 @@ pipeline {
     agent any
 
     tools {
-        nodejs "node22" // nama harus sama persis dengan yang didaftarkan di Manage Jenkins > Tools
+        nodejs "node22" // Buat connection ke Node.js versi 22 sesuai yang didaftarkan di Manage Jenkins > Tools
+    
     }
 
     environment {
-        DISCORD_WEBHOOK_URL = credentials('discord-webhook-url') // dipakai di post block, harus di level pipeline biar kebaca semua stage
+        DISCORD_WEBHOOK_URL = credentials('discord-webhook-url') //Buat ambil webhook URL Discord dari Jenkins Credentials
     }
 
     triggers {
-        cron('0 8 * * 1-5') // tiap jam 8 pagi, Senin-Jumat (format cron: menit jam tanggal bulan hari)
+        cron('0 8 * * 1-5') // Trigger tiap jam 8 pagi, Senin-Jumat 
     }
 
     stages {
@@ -22,7 +23,7 @@ pipeline {
 
         stage('Run Smoke Tests') {
             environment {
-                CYPRESS_apiKey = credentials('reqres-api-key')
+                CYPRESS_apiKey = credentials('reqres-api-key') //Buat ambil APIkey dari Jenkins Credentials
             }
             steps {
                 bat 'npm run cy:smoke'
@@ -46,7 +47,7 @@ pipeline {
                 $message = "**Smoke Test: $env:BUILD_RESULT_TEXT**`nBuild #$env:BUILD_NUMBER`nAllure Report: $env:BUILD_URL allure`nConsole Log: $env:BUILD_URL console"
                 $body = @{ content = $message } | ConvertTo-Json
                 Invoke-RestMethod -Uri $env:DISCORD_WEBHOOK_URL -Method Post -ContentType 'application/json' -Body $body
-            '''
+            ''' // Buat kirim message ke Discord
         }
     }
 }

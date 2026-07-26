@@ -2,27 +2,27 @@ pipeline {
     agent any
 
     tools {
-        nodejs "node22" // Buat connection ke Node.js versi 22, nama harus sama persis dengan yang didaftarkan di Manage Jenkins > Tools
+        nodejs "node22" // Buat connection ke Node.js versi 22 sesuai yang didaftarkan di Manage Jenkins > Tools
     }
 
     environment {
-        DISCORD_WEBHOOK_URL = credentials('discord-webhook-url') // Buat webhook Discord biar communication ke Discord bisa otomatis
+        DISCORD_WEBHOOK_URL = credentials('discord-webhook-url') //Buat ambil webhook URL Discord dari Jenkins Credentials
     }
 
     triggers {
-        cron('40 20 * * *') //Trigger tiap jam 20:17, setiap hari
+        cron('0 1 * * *') //Trigger tiap jam 1 malem, setiap hari
     }
 
     stages {
         stage('Install Dependencies') {
             steps {
-                bat 'npm ci'
+                bat 'npm ci' // untuk install dependencies
             }
         }
 
         stage('Run Regression Tests') {
             environment {
-                CYPRESS_apiKey = credentials('reqres-api-key') // ambil dari Jenkins Credentials, bukan dari file
+                CYPRESS_apiKey = credentials('reqres-api-key') //Buat ambil APIkey dari Jenkins Credentials
             }
      
             steps {
