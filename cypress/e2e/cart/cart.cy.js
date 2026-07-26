@@ -12,12 +12,12 @@ describe("Cart Test", () => {
     LoginPage.validateSuccessLogin();
   });
 
-  it("TC-01 | Add one items to cart", () => {
+  it("TC-01 | Add one items to cart", { tags: ["@smoke", "@regression"] }, () => {
     ProductPage.clickAddToCartButton("Sauce Labs Bolt T-Shirt");
     CartPage.clickCartButton();
     CartPage.verifyIteminCart("Sauce Labs Bolt T-Shirt");
   });
-  it("TC-02 | Add multiple items to cart", () => {
+  it("TC-02 | Add multiple items to cart", { tags: ["@regression"] }, () => {
     ProductPage.clickAddToCartButton("Sauce Labs Bolt T-Shirt");
     ProductPage.clickAddToCartButton("Sauce Labs Onesie");
     ProductPage.clickAddToCartButton("Test.allTheThings() T-Shirt (Red)");
@@ -28,7 +28,7 @@ describe("Cart Test", () => {
     CartPage.verifyIteminCart("Test.allTheThings() T-Shirt (Red)");
     CartPage.verifyIteminCart("Sauce Labs Backpack");
   });
-  it("TC-03 | Remove one items from cart", () => {
+  it("TC-03 | Remove one items from cart", { tags: ["@smoke", "@regression"] }, () => {
     ProductPage.clickAddToCartButton("Sauce Labs Bolt T-Shirt");
     ProductPage.clickAddToCartButton("Test.allTheThings() T-Shirt (Red)");
     CartPage.clickCartButton();
@@ -37,7 +37,7 @@ describe("Cart Test", () => {
     CartPage.clickRemoveButtonInCart("Sauce Labs Bolt T-Shirt");
     CartPage.verifyItemNotinCart("Sauce Labs Bolt T-Shirt");
   });
-  it("TC-04 | Remove multiple items from cart", () => {
+  it("TC-04 | Remove multiple items from cart", { tags: ["@regression"] }, () => {
     ProductPage.clickAddToCartButton("Sauce Labs Bolt T-Shirt");
     ProductPage.clickAddToCartButton("Test.allTheThings() T-Shirt (Red)");
     CartPage.clickCartButton();
@@ -48,19 +48,19 @@ describe("Cart Test", () => {
     CartPage.verifyItemNotinCart("Sauce Labs Bolt T-Shirt");
     CartPage.verifyItemNotinCart("Test.allTheThings() T-Shirt (Red)");
   });
-  it("TC-05 | Show product details in Cart", () => {
+  it("TC-05 | Show product details in Cart", { tags: ["@smoke", "@regression"] }, () => {
     ProductPage.clickAddToCartButton("Sauce Labs Bolt T-Shirt");
     CartPage.clickCartButton();
     CartPage.verifyIteminCart("Sauce Labs Bolt T-Shirt");
     CartPage.clickProductName("Sauce Labs Bolt T-Shirt");
     ProductPage.verifyProductDetailName("Sauce Labs Bolt T-Shirt");
   });
-  it("TC-06 | Back to Inventory Page", () => {
+  it("TC-06 | Back to Inventory Page", { tags: ["@smoke", "@regression"] }, () => {
     CartPage.clickCartButton();
     CartPage.clickContinueShoppingButton();
     CartPage.verifyInventoryPage();
   });
-  it("TC-07 | Checkout items", () => {
+  it("TC-07 | Checkout items", { tags: ["@smoke", "@regression"] }, () => {
     ProductPage.clickAddToCartButton("Sauce Labs Bolt T-Shirt");
     ProductPage.clickAddToCartButton("Sauce Labs Onesie");
     ProductPage.clickAddToCartButton("Test.allTheThings() T-Shirt (Red)");

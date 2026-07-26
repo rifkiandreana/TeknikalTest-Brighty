@@ -11,29 +11,29 @@ describe("Product Test", () => {
     LoginPage.validateSuccessLogin();
   });
 
-  it("TC-01 | Add item to cart", () => {
+  it("TC-01 | Add item to cart", { tags: ["@smoke", "@regression"] }, () => {
     ProductPage.clickAddToCartButton("Sauce Labs Onesie");
     ProductPage.verifyAddToCart("Sauce Labs Onesie");
   });
 
-  it("TC-02 | Remove item from cart", () => {
+  it("TC-02 | Remove item from cart", { tags: ["@regression"] }, () => {
     ProductPage.clickAddToCartButton("Test.allTheThings() T-Shirt (Red)");
     ProductPage.verifyAddToCart("Test.allTheThings() T-Shirt (Red)");
     ProductPage.clickRemoveFromCartButton("Test.allTheThings() T-Shirt (Red)");
     ProductPage.verifyRemoveFromCart("Test.allTheThings() T-Shirt (Red)");
   });
 
-  it.only("TC-03 | Negative case: item should not appear in cart before add", () => {
+  it("TC-03 | Item should not appear in cart before add", { tags: ["@regression"] }, () => {
     ProductPage.verifyRemoveFromCart("Sauce Labs Onesie");
     ProductPage.verifyCartBadgeNotExist();
   });
 
-  it("TC-04 | Sorting items", () => {
+  it("TC-04 | Sorting items", { tags: ["@regression"] }, () => {
     ProductPage.selectActiveSortOptionsButton("Name (Z to A)");
     ProductPage.verifyActiveSortOption("za");
   });
 
-  it("TC-05 | Show Detail product", () => {
+  it("TC-05 | Show Detail product", { tags: ["@smoke", "@regression"] }, () => {
     ProductPage.clickProductName("Sauce Labs Backpack");
     ProductPage.verifyProductDetailName("Sauce Labs Backpack");
   });
