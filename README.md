@@ -2,12 +2,16 @@
 
 Repository ini berisi automation test berbasis Cypress untuk target aplikasi utama Sauce Demo dan API publik ReqRes. Fokusnya adalah memberikan paket Git yang bisa dijalankan ulang dari README ini, lengkap dengan runtime, dependency, cara menjalankan smoke/regression, serta contoh laporan hasil test.
 
+Repository ini juga memuat load testing berbasis JMeter untuk melengkapi coverage non-functional testing. Bagian ini dipakai untuk melihat respons aplikasi publik di bawah beban yang lebih tinggi dan menyiapkan artefak report yang bisa dibagikan sebagai bukti hasil eksekusi.
+
 ## Target Aplikasi
 
 Saya memilih dua target yang memang tercermin di suite yang ada di repository ini:
 
 1. Sauce Demo untuk skenario UI end-to-end seperti login, product, dan cart.
 2. ReqRes untuk skenario API seperti get user, create user, update user, dan delete user.
+
+Untuk load testing, target yang dipilih adalah JSONPlaceholder pada endpoint `/posts`. Target ini cocok untuk simulasi beban karena bersifat publik, stabil, dan tidak membutuhkan setup data yang rumit.
 
 ## Asumsi
 
@@ -18,6 +22,18 @@ Beberapa asumsi yang saya pakai saat menyiapkan repository ini:
 3. API ReqRes membutuhkan `x-api-key` yang dibaca dari Cypress environment atau credential Jenkins.
 4. Test dijalankan pada data publik yang stabil, sehingga tidak perlu menyiapkan seed data lokal khusus.
 5. Folder `allure-results` dan `allure-report` bisa di-generate ulang setiap kali test dijalankan.
+
+Asumsi tambahan untuk load testing:
+
+1. Endpoint JSONPlaceholder tersedia saat test dijalankan dan tidak sedang mengalami pembatasan yang mengganggu hasil.
+2. Fokus load test adalah pengamatan perilaku respons dasar, bukan pengujian kapasitas infrastruktur internal aplikasi target.
+3. Hasil load test dapat diulang dengan konfigurasi thread, ramp-up, dan loop yang sama.
+
+Catatan untuk API key:
+
+1. File `cypress.env.json` harus dibuat terlebih dahulu di root project sebelum menjalankan Cypress.
+2. File ini tidak disimpan di repository karena sudah masuk `.gitignore`.
+3. API key akan dikirim terpisah melalui email, lalu diisikan ke `cypress.env.json` sesuai format environment Cypress yang dipakai suite ini.
 
 ## Runtime dan Dependency
 
@@ -30,9 +46,28 @@ Runtime dan toolchain yang dipakai:
 5. @cypress/grep 6.0.2
 6. dotenv 17.4.2
 
+Runtime untuk load testing:
+
+1. Apache JMeter 5.6.3
+2. Java 24.0.1 pada environment yang dipakai saat run contoh report
+
+Artefak load testing tersimpan di folder `jmeter/`, dengan plan di `jmeter/Technicaltest-Brighty-loadtesting.jmx` dan contoh HTML report di `jmeter/report/index.html`.
+
 Dependency utama yang relevan untuk eksekusi test ada di `package.json`. Install dengan `npm ci` agar versi paket mengikuti lockfile dan hasil run lebih repeatable.
 
 ## Cara Menjalankan
+
+### Siapkan Cypress Environment
+
+Sebelum menjalankan Cypress, buat file `cypress.env.json` di root project. Jangan letakkan file ini di dalam folder `cypress`, karena Cypress membaca environment file dari level project. Setelah itu, isi API key yang sudah dikirim lewat email. File ini sengaja tidak di-commit ke Git supaya secret tetap aman dan setiap orang yang menjalankan repo ini mengisi credential miliknya masing-masing.
+
+Contoh isi file:
+
+```json
+{
+  "apiKey": "Masukkan API key yang dikirim di email"
+}
+```
 
 ### Instalasi
 
@@ -90,6 +125,19 @@ Repository ini sudah menyertakan contoh HTML report yang bisa dibuka langsung da
 
 Kalau ingin melihat artefak hasil eksekusi terbaru, gunakan folder `allure-results` untuk data mentah dan `allure-report` untuk laporan HTML yang sudah di-generate.
 
+Untuk load testing, contoh hasil report juga tersedia di `jmeter/report/index.html`. File ini bisa dibuka langsung sebagai dashboard Apache JMeter dan dipakai sebagai contoh output ketika file JTL terbaru di-generate dari plan yang sama.
+
+### Load Testing
+
+Konfigurasi load test yang ada saat ini memakai:
+
+1. 10 virtual user.
+2. Ramp-up 5 detik.
+3. 20 loop per user.
+4. HTTP sampler `GET /posts` ke `jsonplaceholder.typicode.com`.
+
+Saat ingin menjalankan ulang, buka file `jmeter/Technicaltest-Brighty-loadtesting.jmx` di Apache JMeter 5.6.3, jalankan test plan, lalu generate report HTML dari file `result.jtl` yang dihasilkan.
+
 ## Rencana Pengujian
 
 Prioritas saya adalah area yang paling berisiko memutus alur utama pengguna:
@@ -113,6 +161,8 @@ Cara menjaga data dan environment tetap konsisten:
 4. Memakai tag test agar smoke dan regression selalu eksekusi subset yang sama.
 5. Menjalankan dependensi dengan `npm ci` supaya versi paket tetap sama antar mesin.
 6. Mengandalkan environment variable atau Jenkins credential untuk secret seperti API key.
+
+Untuk load testing, konsistensi dijaga dengan plan yang tidak berubah, jumlah thread dan loop yang tetap, endpoint publik yang sama, serta output JTL/report yang digenerate ulang dari eksekusi terbaru agar hasil perbandingan tidak tercampur dengan artefak lama.
 
 ## Catatan Struktur Test
 

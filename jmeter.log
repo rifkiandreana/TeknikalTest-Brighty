@@ -1,0 +1,19 @@
+2026-07-26 21:47:35,055 INFO o.a.j.u.JMeterUtils: Setting Locale to en_EN
+2026-07-26 21:47:35,084 INFO o.a.j.JMeter: Loading user properties from: C:\apache-jmeter-5.6.3\bin\user.properties
+2026-07-26 21:47:35,085 INFO o.a.j.JMeter: Loading system properties from: C:\apache-jmeter-5.6.3\bin\system.properties
+2026-07-26 21:47:35,100 INFO o.a.j.JMeter: Copyright (c) 1998-2024 The Apache Software Foundation
+2026-07-26 21:47:35,100 INFO o.a.j.JMeter: Version 5.6.3
+2026-07-26 21:47:35,100 INFO o.a.j.JMeter: java.version=24.0.1
+2026-07-26 21:47:35,100 INFO o.a.j.JMeter: java.vm.name=Java HotSpot(TM) 64-Bit Server VM
+2026-07-26 21:47:35,100 INFO o.a.j.JMeter: os.name=Windows 11
+2026-07-26 21:47:35,100 INFO o.a.j.JMeter: os.arch=amd64
+2026-07-26 21:47:35,105 INFO o.a.j.JMeter: os.version=10.0
+2026-07-26 21:47:35,106 INFO o.a.j.JMeter: file.encoding=UTF-8
+2026-07-26 21:47:35,106 INFO o.a.j.JMeter: java.awt.headless=true
+2026-07-26 21:47:35,106 INFO o.a.j.JMeter: Max memory     =1073741824
+2026-07-26 21:47:35,106 INFO o.a.j.JMeter: Available Processors =4
+2026-07-26 21:47:35,128 INFO o.a.j.JMeter: Default Locale=English (EN)
+2026-07-26 21:47:35,129 INFO o.a.j.JMeter: JMeter  Locale=English (EN)
+2026-07-26 21:47:35,129 INFO o.a.j.JMeter: JMeterHome=C:\apache-jmeter-5.6.3
+2026-07-26 21:47:35,129 INFO o.a.j.JMeter: user.dir  =D:\Data andre\Kerja\Technical Test\Brighty
+2026-07-26 21:47:35,130 INFO o.a.j.JMeter: PWD       =D:\Data andre\Kerja\Technical Test\Brighty
