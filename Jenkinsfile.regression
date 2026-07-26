@@ -10,7 +10,7 @@ pipeline {
     }
 
     triggers {
-        cron('0 1 * * *') // tiap jam 1 pagi, setiap hari
+        cron('17 20 * * *') // tiap jam 20:17, setiap hari
     }
 
     stages {
