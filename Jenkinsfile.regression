@@ -17,6 +17,10 @@ pipeline {
         }
 
         stage('Run Regression Tests') {
+            environment {
+                CYPRESS_apiKey = credentials('reqres-api-key') // ambil dari Jenkins Credentials, bukan dari file
+            }
+     
             steps {
                 bat 'npm run cy:regression'
             }

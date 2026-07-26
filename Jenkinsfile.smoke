@@ -17,6 +17,9 @@ pipeline {
         }
 
         stage('Run Smoke Tests') {
+            environment {
+                CYPRESS_apiKey = credentials('reqres-api-key')
+            }
             steps {
                 bat 'npm run cy:smoke'
             }
