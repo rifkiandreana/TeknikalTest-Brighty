@@ -1,7 +1,7 @@
 import { apiRequest } from "../../services/apiClient";
 
 describe("Users API", () => {
-  it("TC-01 | Get User By ID", () => {
+  it("TC-01 | Get User By ID", { tags: ["@smoke", "@regression"] }, () => {
     apiRequest({
       method: "GET",
       endpoint: "/api/users/1",
@@ -15,7 +15,20 @@ describe("Users API", () => {
     });
   });
 
-  it("TC-02 | Get List Users", () => {
+  it("TC-02 | Get User ID Not Found", { tags: ["@regression"] }, () => {
+    apiRequest({
+      method: "GET",
+      endpoint: "/api/users/1000201",
+      failOnStatusCode: false,
+    }).then((response) => {
+      cy.log(`Status Code : ${response.status}`);
+      cy.log(`Response Time : ${response.duration} ms`);
+      cy.log(`Response Body : ${JSON.stringify(response.body)}`);
+      expect(response.status).to.eq(404);
+    });
+  });
+
+  it("TC-02 | Get List Users", { tags: ["@smoke", "@regression"] }, () => {
     apiRequest({
       method: "GET",
       endpoint: "/api/users",
@@ -29,7 +42,7 @@ describe("Users API", () => {
     });
   });
 
-  it("TC-03 | Create User", () => {
+  it("TC-03 | Create User", { tags: ["@smoke", "@regression"] }, () => {
     const requestBody = {
       name: "John Doe",
       job: "Software Engineer",
@@ -48,7 +61,7 @@ describe("Users API", () => {
     });
   });
 
-  it("TC-04 | Update User", () => {
+  it("TC-04 | Update User", { tags: ["@smoke", "@regression"] }, () => {
     const requestBody = {
       name: "Jane Doe",
       job: "Senior Quality Assurance Engineer",
@@ -66,7 +79,7 @@ describe("Users API", () => {
       expect(response.status).to.eq(200);
     });
   });
-  it("TC-05 | Delete User", () => {
+  it("TC-05 | Delete User", { tags: ["@smoke", "@regression"] }, () => {
     apiRequest({
       method: "DELETE",
       endpoint: "/api/users/1",
